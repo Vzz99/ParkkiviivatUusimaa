@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parkkiviivat Uusimaa – Ammattimaiset parkkialuemerkinnät</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0e0e0e;
+    --white: #f8f7f4;
+    --yellow: #f5c518;
+    --yellow-dark: #d4a800;
+    --gray: #6b6b6b;
+    --gray-light: #e8e6e0;
+    --section-pad: clamp(4rem, 8vw, 8rem);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 5%;
+    background: rgba(248,247,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-light);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    color: var(--black);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--yellow-dark); }
+
+  nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  nav ul a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--black); }
+
+  .nav-cta {
+    background: var(--black);
+    color: var(--white) !important;
+    padding: 0.55rem 1.25rem;
+    border-radius: 2rem;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--yellow-dark) !important; color: var(--black) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(3rem, 6vw, 6rem) 5%;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2px;
+    background: var(--yellow);
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    color: var(--black);
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--yellow-dark);
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--yellow-dark); color: var(--black); transform: translateY(-1px); }
+
+  .btn-secondary {
+    border: 1.5px solid var(--black);
+    color: var(--black);
+    padding: 0.9rem 2rem;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: var(--black); color: var(--white); }
+
+  /* HERO RIGHT — visual */
+  .hero-right {
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .parking-visual {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .parking-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 3rem;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+  }
+
+  .parking-spot {
+    aspect-ratio: 1/2;
+    border: 3px solid rgba(245,197,24,0.15);
+    border-radius: 4px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .parking-spot.filled {
+    background: rgba(245,197,24,0.06);
+    border-color: rgba(245,197,24,0.5);
+  }
+
+  .parking-spot.active {
+    border-color: var(--yellow);
+    background: rgba(245,197,24,0.12);
+    box-shadow: 0 0 20px rgba(245,197,24,0.15);
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--black);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .stat-item {
+    padding: 2.5rem 4rem;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    flex: 1;
+    max-width: 260px;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* SERVICES */
+  .services {
+    padding: var(--section-pad) 5%;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow-dark);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .section-sub {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--gray-light);
+    border: 1.5px solid var(--gray-light);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 2.5rem;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .service-card:hover { background: var(--black); }
+  .service-card:hover .service-title { color: var(--white); }
+  .service-card:hover .service-desc { color: rgba(255,255,255,0.6); }
+  .service-card:hover .service-icon { background: var(--yellow); color: var(--black); }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--gray-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .service-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+    transition: color 0.25s;
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+    transition: color 0.25s;
+  }
+
+  /* HOW */
+  .how {
+    padding: var(--section-pad) 5%;
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .how .section-title { color: var(--white); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    counter-reset: steps;
+  }
+
+  .step {
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .step::before {
+    counter-increment: steps;
+    content: "0" counter(steps);
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    color: rgba(245,197,24,0.2);
+    display: block;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .step-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  .step-line {
+    position: absolute;
+    top: 2.5rem;
+    right: -1rem;
+    width: 2rem;
+    height: 1px;
+    background: rgba(245,197,24,0.3);
+  }
+
+  .step:last-child .step-line { display: none; }
+
+  /* WHO */
+  .who {
+    padding: var(--section-pad) 5%;
+  }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .who-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .who-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1.25rem 1.5rem;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 0.75rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .who-list li:hover {
+    border-color: var(--yellow);
+    background: rgba(245,197,24,0.04);
+  }
+
+  .who-list li span {
+    font-size: 1.4rem;
+  }
+
+  .who-text h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .who-text p {
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--yellow);
+    padding: var(--section-pad) 5%;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    color: var(--black);
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    font-size: 1.1rem;
+    color: rgba(0,0,0,0.65);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-section .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    font-size: 1rem;
+    padding: 1rem 2.5rem;
+  }
+
+  .cta-section .btn-primary:hover { background: #333; }
+
+  /* CONTACT */
+  .contact {
+    padding: var(--section-pad) 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .contact-info p {
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .contact-detail .icon {
+    width: 36px;
+    height: 36px;
+    background: var(--gray-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: var(--white);
+    color: var(--black);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus,
+  .contact-form select:focus {
+    border-color: var(--black);
+  }
+
+  .contact-form textarea { min-height: 120px; resize: vertical; }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: #aaa; }
+
+  .contact-form button {
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: flex-start;
+  }
+
+  .contact-form button:hover { background: var(--yellow-dark); color: var(--black); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 2rem 5%;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { min-height: 300px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .step-line { display: none; }
+    .who-grid { grid-template-columns: 1fr; }
+    .contact { grid-template-columns: 1fr; gap: 3rem; }
+    .stats-bar { flex-wrap: wrap; }
+    nav ul { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero p { animation-delay: 0.3s; }
+  .hero-btns { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Parkkiviivat Uusimaa</a>
+  <ul>
+    <li><a href="#palvelut">Palvelut</a></li>
+    <li><a href="#miten">Miten toimimme</a></li>
+    <li><a href="#asiakkaat">Asiakkaille</a></li>
+    <li><a href="#yhteystiedot" class="nav-cta">Pyydä tarjous</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Uusimaa · Kesä 2025</div>
+    <h1>Selkeät viivat,<br><em>siisti piha.</em></h1>
+    <p>Maalaamme parkkipaikkojen merkinnät taloyhtiöille, yrityksille ja teollisuuskiinteistöille Uudellamaalla. Nopea, siisti ja kestävä tulos.</p>
+    <div class="hero-btns">
+      <a href="#yhteystiedot" class="btn-primary">Pyydä ilmainen tarjous</a>
+      <a href="#palvelut" class="btn-secondary">Katso palvelut</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="parking-visual">
+      <div class="parking-grid">
+        <div class="parking-spot filled"></div>
+        <div class="parking-spot active"></div>
+        <div class="parking-spot filled"></div>
+        <div class="parking-spot"></div>
+        <div class="parking-spot"></div>
+        <div class="parking-spot active"></div>
+        <div class="parking-spot filled"></div>
+        <div class="parking-spot filled"></div>
+        <div class="parking-spot filled"></div>
+        <div class="parking-spot"></div>
+        <div class="parking-spot active"></div>
+        <div class="parking-spot filled"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number">24h</div>
+    <div class="stat-label">Tarjoukseen vastausaika</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">100%</div>
+    <div class="stat-label">Tyytyväisyystakuu</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">Uusimaa</div>
+    <div class="stat-label">Palvelualue</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="palvelut">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Palvelut</div>
+      <h2 class="section-title">Mitä teemme</h2>
+    </div>
+    <p class="section-sub">Kaikki parkkialueen merkintätyöt yhdeltä toimittajalta — nopeasti ja siististi.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🅿️</div>
+      <div class="service-title">Parkkipaikkojen maalaus</div>
+      <p class="service-desc">Yksittäisten tai useiden autopaikkojen merkintä kestävällä tieliikennemaaleilla. Soveltuu asfaltille ja betonille.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏢</div>
+      <div class="service-title">Taloyhtiöt</div>
+      <p class="service-desc">Selkeät ja yhdenmukaiset merkinnät taloyhtiön pihaan. Numeroidut paikat, esteetön alue, lastaus- ja nouto.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏭</div>
+      <div class="service-title">Yritysalueet</div>
+      <p class="service-desc">Toimistot, kauppakeskukset, teollisuushallit. Suuretkin alueet tehokkaasti yhdellä käynnillä.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">♿</div>
+      <div class="service-title">Esteettömät paikat</div>
+      <p class="service-desc">Lakisääteiset inva-merkinnät oikein ja selkeästi. Varmistetaan että merkinnät ovat vaatimusten mukaisia.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔄</div>
+      <div class="service-title">Uusintamaalaus</div>
+      <p class="service-desc">Vanhojen ja kuluneiden viivamerkintöjen piristäminen. Nopea tapa saada piha siistiksi ennen kesää.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📐</div>
+      <div class="service-title">Suunnittelu ja layout</div>
+      <p class="service-desc">Autamme suunnittelemaan pysäköintialueen merkinnät optimaalisesti tilankäytön ja liikenteen sujuvuuden kannalta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how" id="miten">
+  <div class="section-tag" style="color: var(--yellow);">Prosessi</div>
+  <h2 class="section-title">Näin se toimii</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-line"></div>
+      <div class="step-title">Yhteydenotto</div>
+      <p class="step-desc">Lähetä viesti tai soita. Kerro kohde, sijainti ja arvio parkkipaikkojen määrästä.</p>
+    </div>
+    <div class="step">
+      <div class="step-line"></div>
+      <div class="step-title">Ilmainen tarjous</div>
+      <p class="step-desc">Lähetämme kiinteähintaisen tarjouksen 24 tunnin sisällä — ei piilokuluja.</p>
+    </div>
+    <div class="step">
+      <div class="step-line"></div>
+      <div class="step-title">Sovitaan aikataulu</div>
+      <p class="step-desc">Valitaan sopiva päivä. Työ tehdään usein yhden päivän aikana.</p>
+    </div>
+    <div class="step">
+      <div class="step-title">Valmista!</div>
+      <p class="step-desc">Siisti lopputulos, kuivumisaika noin 2–4 tuntia, jonka jälkeen piha on käytössä.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="who" id="asiakkaat">
+  <div class="section-tag">Kenelle</div>
+  <h2 class="section-title">Sopiiko se meille?</h2>
+  <div class="who-grid">
+    <ul class="who-list">
+      <li><span>🏠</span> Taloyhtiöt ja isännöitsijät</li>
+      <li><span>🏢</span> Toimistokiinteistöt</li>
+      <li><span>🛒</span> Kauppakeskukset ja myymälät</li>
+      <li><span>🏭</span> Teollisuus- ja logistiikka-alueet</li>
+      <li><span>🏥</span> Sairaalat ja julkiset kiinteistöt</li>
+      <li><span>⛽</span> Huoltoasemat ja autoliikkeet</li>
+    </ul>
+    <div class="who-text">
+      <h3>Kesäkuu on paras aika — varaa nyt</h3>
+      <p>Parkkipaikkojen maalaus onnistuu parhaiten kuivalla ja lämpimällä kelillä. Kesäkuu on juuri oikea aika — maali tarttuu hyvin ja kuivuu nopeasti.</p>
+      <p>Varaamalla nyt varmistat paikan kalenteristamme ja saat siistin pihan kesäksi. Kysy rohkeasti, tarjous on aina ilmainen.</p>
+      <a href="#yhteystiedot" class="btn-primary" style="margin-top: 1rem;">Kysy tarjous</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Valmis siistimpään pihaan?</h2>
+  <p>Ota yhteyttä tänään — tarjous on ilmainen ja vastaamme 24 tunnissa.</p>
+  <a href="#yhteystiedot" class="btn-primary">Pyydä ilmainen tarjous →</a>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="yhteystiedot">
+  <div class="contact-info">
+    <h2>Ota yhteyttä</h2>
+    <p>Täytä lomake tai ota suoraan yhteyttä. Kerro kohteesta ja parkkipaikkojen määrästä niin lähetämme tarjouksen nopeasti.</p>
+    <div class="contact-detail">
+      <div class="icon">📧</div>
+      <span>info@parkkiviivat-uusimaa.fi</span>
+    </div>
+    <div class="contact-detail">
+      <div class="icon">📞</div>
+      <span>+358 XX XXX XXXX</span>
+    </div>
+    <div class="contact-detail">
+      <div class="icon">📍</div>
+      <span>Uusimaa, pääkaupunkiseutu ja lähialueet</span>
+    </div>
+    <div class="contact-detail">
+      <div class="icon">🕐</div>
+      <span>Ma–Pe 8–18, La tarvittaessa</span>
+    </div>
+  </div>
+  <form class="contact-form" onsubmit="handleSubmit(event)">
+    <div class="form-row">
+      <input type="text" placeholder="Nimi" required>
+      <input type="tel" placeholder="Puhelinnumero">
+    </div>
+    <input type="email" placeholder="Sähköposti" required>
+    <input type="text" placeholder="Kohteen osoite">
+    <select>
+      <option value="" disabled selected>Asiakastyyppi</option>
+      <option>Taloyhtiö / isännöitsijä</option>
+      <option>Yritys / toimistokiinteistö</option>
+      <option>Teollisuus / logistiikka</option>
+      <option>Julkinen kiinteistö</option>
+      <option>Muu</option>
+    </select>
+    <input type="text" placeholder="Arvio parkkipaikkojen määrästä">
+    <textarea placeholder="Lisätietoja tai erityistoiveet..."></textarea>
+    <button type="submit">Lähetä tarjouspyyntö →</button>
+  </form>
+</section>
+
+<footer>
+  <p>© 2025 Parkkiviivat Uusimaa · <a href="mailto:info@parkkiviivat-uusimaa.fi">info@parkkiviivat-uusimaa.fi</a></p>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = '✓ Lähetetty! Otamme yhteyttä pian.';
+  btn.style.background = '#1a7a4a';
+  btn.disabled = true;
+}
+</script>
+
+</body>
+</html>
