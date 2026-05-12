@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parkkiviivat Uusimaa – Ammattimaiset parkkialuemerkinnät</title>
+<title>MeHoidamme – Parkkiviivat kuluneet? Me hoidamme.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,9 +47,17 @@
     color: var(--black);
     text-decoration: none;
     letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
   }
 
-  .nav-logo span { color: var(--yellow-dark); }
+  .nav-logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
 
   nav ul {
     display: flex;
@@ -81,17 +89,31 @@
   /* HERO */
   .hero {
     min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    position: relative;
+    display: flex;
+    align-items: center;
     padding-top: 5rem;
     overflow: hidden;
   }
 
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('parrkipaikka1.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35);
+    z-index: 0;
+  }
+
   .hero-left {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: clamp(3rem, 6vw, 6rem) 5%;
+    max-width: 700px;
   }
 
   .hero-tag {
@@ -102,7 +124,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--yellow-dark);
+    color: var(--yellow);
     margin-bottom: 1.5rem;
   }
 
@@ -116,23 +138,23 @@
 
   .hero h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-size: clamp(2.8rem, 5vw, 5rem);
     line-height: 1.05;
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
-    color: var(--black);
+    color: var(--white);
   }
 
   .hero h1 em {
     font-style: normal;
-    color: var(--yellow-dark);
+    color: var(--yellow);
   }
 
   .hero p {
     font-size: 1.1rem;
-    color: var(--gray);
+    color: rgba(255,255,255,0.75);
     line-height: 1.7;
-    max-width: 420px;
+    max-width: 480px;
     margin-bottom: 2.5rem;
   }
 
@@ -143,22 +165,22 @@
   }
 
   .btn-primary {
-    background: var(--black);
-    color: var(--white);
+    background: var(--yellow);
+    color: var(--black);
     padding: 0.9rem 2rem;
     border-radius: 2rem;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     transition: background 0.2s, transform 0.15s;
     display: inline-block;
   }
 
-  .btn-primary:hover { background: var(--yellow-dark); color: var(--black); transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--yellow-dark); transform: translateY(-1px); }
 
   .btn-secondary {
-    border: 1.5px solid var(--black);
-    color: var(--black);
+    border: 1.5px solid rgba(255,255,255,0.5);
+    color: var(--white);
     padding: 0.9rem 2rem;
     border-radius: 2rem;
     font-size: 0.95rem;
@@ -168,56 +190,7 @@
     display: inline-block;
   }
 
-  .btn-secondary:hover { background: var(--black); color: var(--white); }
-
-  /* HERO RIGHT — visual */
-  .hero-right {
-    background: var(--black);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .parking-visual {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .parking-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    padding: 3rem;
-    width: 100%;
-    height: 100%;
-    align-content: center;
-  }
-
-  .parking-spot {
-    aspect-ratio: 1/2;
-    border: 3px solid rgba(245,197,24,0.15);
-    border-radius: 4px;
-    position: relative;
-    transition: border-color 0.3s;
-  }
-
-  .parking-spot.filled {
-    background: rgba(245,197,24,0.06);
-    border-color: rgba(245,197,24,0.5);
-  }
-
-  .parking-spot.active {
-    border-color: var(--yellow);
-    background: rgba(245,197,24,0.12);
-    box-shadow: 0 0 20px rgba(245,197,24,0.15);
-  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
 
   /* Stats bar */
   .stats-bar {
@@ -292,7 +265,7 @@
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5px;
     background: var(--gray-light);
     border: 1.5px solid var(--gray-light);
@@ -305,39 +278,137 @@
     padding: 2.5rem;
     transition: background 0.25s;
     cursor: default;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
 
   .service-card:hover { background: var(--black); }
   .service-card:hover .service-title { color: var(--white); }
   .service-card:hover .service-desc { color: rgba(255,255,255,0.6); }
-  .service-card:hover .service-icon { background: var(--yellow); color: var(--black); }
+  .service-card:hover .service-icon { background: var(--yellow); }
 
   .service-icon {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     background: var(--gray-light);
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    transition: background 0.25s, color 0.25s;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: background 0.25s;
   }
 
   .service-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
     letter-spacing: -0.02em;
     transition: color 0.25s;
   }
 
   .service-desc {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--gray);
     line-height: 1.6;
     transition: color 0.25s;
+  }
+
+  /* IMAGE SHOWCASE */
+  .img-showcase {
+    background: var(--black);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .img-showcase-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 420px;
+  }
+
+  .img-showcase img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.9);
+  }
+
+  .img-showcase-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2.5rem, 5vw, 5rem);
+    color: var(--white);
+  }
+
+  .img-showcase-text h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+
+  .img-showcase-text p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 900px) {
+    .img-showcase-inner { grid-template-columns: 1fr; }
+    .img-showcase img { max-height: 280px; }
+  }
+
+  /* NIGHT WORK BANNER */
+  .night-banner {
+    background: #0a0a0a;
+    background-image: url('parkkiviiva6.webp');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3rem, 6vw, 6rem) 5%;
+  }
+
+  .night-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+  }
+
+  .night-banner-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .night-icon {
+    font-size: 3.5rem;
+    flex-shrink: 0;
+  }
+
+  .night-banner h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .night-banner p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
   /* HOW */
@@ -397,7 +468,7 @@
 
   .step:last-child .step-line { display: none; }
 
-  /* WHO */
+  /* WHO WE ARE */
   .who {
     padding: var(--section-pad) 5%;
   }
@@ -405,85 +476,131 @@
   .who-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 5rem;
     align-items: center;
     margin-top: 3rem;
   }
 
-  .who-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  .who-photo {
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    position: relative;
   }
 
-  .who-list li {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 1.25rem 1.5rem;
-    border: 1.5px solid var(--gray-light);
-    border-radius: 0.75rem;
-    transition: border-color 0.2s, background 0.2s;
+  .who-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(20%);
   }
 
-  .who-list li:hover {
-    border-color: var(--yellow);
-    background: rgba(245,197,24,0.04);
-  }
-
-  .who-list li span {
-    font-size: 1.4rem;
+  .who-photo-caption {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2rem;
   }
 
   .who-text h3 {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
     letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 
   .who-text p {
-    font-size: 0.95rem;
+    font-size: 0.975rem;
     color: var(--gray);
-    line-height: 1.7;
+    line-height: 1.75;
     margin-bottom: 1rem;
+  }
+
+  .who-names {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .who-name-card {
+    background: var(--gray-light);
+    border-radius: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .who-name-card span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--gray);
+    margin-top: 0.2rem;
   }
 
   /* CTA */
   .cta-section {
-    background: var(--yellow);
+    background: var(--black);
     padding: var(--section-pad) 5%;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(245,197,24,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: block;
+    opacity: 0.9;
   }
 
   .cta-section h2 {
     font-family: 'DM Serif Display', serif;
     font-size: clamp(2rem, 5vw, 3.5rem);
     letter-spacing: -0.03em;
-    color: var(--black);
+    color: var(--white);
     margin-bottom: 1rem;
   }
 
   .cta-section p {
     font-size: 1.1rem;
-    color: rgba(0,0,0,0.65);
+    color: rgba(255,255,255,0.55);
     margin-bottom: 2.5rem;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.6;
   }
 
-  .cta-section .btn-primary {
-    background: var(--black);
-    color: var(--white);
-    font-size: 1rem;
+  .cta-section .btn-cta {
+    background: var(--yellow);
+    color: var(--black);
     padding: 1rem 2.5rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    display: inline-block;
   }
 
-  .cta-section .btn-primary:hover { background: #333; }
+  .cta-section .btn-cta:hover { background: var(--yellow-dark); }
 
   /* CONTACT */
   .contact {
@@ -553,12 +670,9 @@
 
   .contact-form input:focus,
   .contact-form textarea:focus,
-  .contact-form select:focus {
-    border-color: var(--black);
-  }
+  .contact-form select:focus { border-color: var(--black); }
 
   .contact-form textarea { min-height: 120px; resize: vertical; }
-
   .contact-form input::placeholder,
   .contact-form textarea::placeholder { color: #aaa; }
 
@@ -592,16 +706,15 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-right { min-height: 300px; }
     .services-grid { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
     .step-line { display: none; }
-    .who-grid { grid-template-columns: 1fr; }
+    .who-grid { grid-template-columns: 1fr; gap: 2rem; }
     .contact { grid-template-columns: 1fr; gap: 3rem; }
     .stats-bar { flex-wrap: wrap; }
     nav ul { display: none; }
     .form-row { grid-template-columns: 1fr; }
+    .night-banner-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
   }
 
   @keyframes fadeUp {
@@ -609,9 +722,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .hero-left > * {
-    animation: fadeUp 0.6s ease both;
-  }
+  .hero-left > * { animation: fadeUp 0.6s ease both; }
   .hero-tag { animation-delay: 0.1s; }
   .hero h1 { animation-delay: 0.2s; }
   .hero p { animation-delay: 0.3s; }
@@ -621,42 +732,28 @@
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Parkkiviivat Uusimaa</a>
+  <a href="#" class="nav-logo">
+    <img src="p.png" alt="Parkkiviivat Uusimaa logo" class="nav-logo-img">
+    Parkkiviivat Uusimaa
+  </a>
   <ul>
     <li><a href="#palvelut">Palvelut</a></li>
     <li><a href="#miten">Miten toimimme</a></li>
-    <li><a href="#asiakkaat">Asiakkaille</a></li>
+    <li><a href="#meista">Ketkä olemme</a></li>
     <li><a href="#yhteystiedot" class="nav-cta">Pyydä tarjous</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-left">
-    <div class="hero-tag">Uusimaa · Kesä 2025</div>
-    <h1>Selkeät viivat,<br><em>siisti piha.</em></h1>
-    <p>Maalaamme parkkipaikkojen merkinnät taloyhtiöille, yrityksille ja teollisuuskiinteistöille Uudellamaalla. Nopea, siisti ja kestävä tulos.</p>
+    <div class="hero-tag">Uusimaa · Kesä 2026</div>
+    <h1>Parkkiviivat kuluneet?<br><em>Me hoidamme.</em></h1>
+    <p>Maalaamme parkkipaikkojen merkinnät taloyhtiöille, yrityksille ja kiinteistöille koko Uudellamaalla. Nopea, siisti ja kestävä lopputulos — 100% tyytyväisyystakuulla.</p>
     <div class="hero-btns">
       <a href="#yhteystiedot" class="btn-primary">Pyydä ilmainen tarjous</a>
       <a href="#palvelut" class="btn-secondary">Katso palvelut</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="parking-visual">
-      <div class="parking-grid">
-        <div class="parking-spot filled"></div>
-        <div class="parking-spot active"></div>
-        <div class="parking-spot filled"></div>
-        <div class="parking-spot"></div>
-        <div class="parking-spot"></div>
-        <div class="parking-spot active"></div>
-        <div class="parking-spot filled"></div>
-        <div class="parking-spot filled"></div>
-        <div class="parking-spot filled"></div>
-        <div class="parking-spot"></div>
-        <div class="parking-spot active"></div>
-        <div class="parking-spot filled"></div>
-      </div>
     </div>
   </div>
 </section>
@@ -684,41 +781,62 @@
       <div class="section-tag">Palvelut</div>
       <h2 class="section-title">Mitä teemme</h2>
     </div>
-    <p class="section-sub">Kaikki parkkialueen merkintätyöt yhdeltä toimittajalta — nopeasti ja siististi.</p>
+    <p class="section-sub">Parkkialueen merkintätyöt ammattimaisesti — yhdeltä puhelinsoitolta valmiiseen tulokseen.</p>
   </div>
   <div class="services-grid">
     <div class="service-card">
       <div class="service-icon">🅿️</div>
-      <div class="service-title">Parkkipaikkojen maalaus</div>
-      <p class="service-desc">Yksittäisten tai useiden autopaikkojen merkintä kestävällä tieliikennemaaleilla. Soveltuu asfaltille ja betonille.</p>
+      <div>
+        <div class="service-title">Parkkipaikkojen maalaus</div>
+        <p class="service-desc">Yksittäisten tai useiden autopaikkojen merkintä kestävällä tieliikennemaaleilla. Soveltuu asfaltille ja betonille.</p>
+      </div>
     </div>
     <div class="service-card">
       <div class="service-icon">🏢</div>
-      <div class="service-title">Taloyhtiöt</div>
-      <p class="service-desc">Selkeät ja yhdenmukaiset merkinnät taloyhtiön pihaan. Numeroidut paikat, esteetön alue, lastaus- ja nouto.</p>
+      <div>
+        <div class="service-title">Taloyhtiöt</div>
+        <p class="service-desc">Selkeät ja yhdenmukaiset merkinnät taloyhtiön pihaan. Numeroidut paikat, lastaus- ja noutopaikat.</p>
+      </div>
     </div>
     <div class="service-card">
       <div class="service-icon">🏭</div>
-      <div class="service-title">Yritysalueet</div>
-      <p class="service-desc">Toimistot, kauppakeskukset, teollisuushallit. Suuretkin alueet tehokkaasti yhdellä käynnillä.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">♿</div>
-      <div class="service-title">Esteettömät paikat</div>
-      <p class="service-desc">Lakisääteiset inva-merkinnät oikein ja selkeästi. Varmistetaan että merkinnät ovat vaatimusten mukaisia.</p>
+      <div>
+        <div class="service-title">Yritysalueet</div>
+        <p class="service-desc">Toimistot, kauppakeskukset, teollisuushallit. Suuretkin alueet tehokkaasti yhdellä käynnillä.</p>
+      </div>
     </div>
     <div class="service-card">
       <div class="service-icon">🔄</div>
-      <div class="service-title">Uusintamaalaus</div>
-      <p class="service-desc">Vanhojen ja kuluneiden viivamerkintöjen piristäminen. Nopea tapa saada piha siistiksi ennen kesää.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">📐</div>
-      <div class="service-title">Suunnittelu ja layout</div>
-      <p class="service-desc">Autamme suunnittelemaan pysäköintialueen merkinnät optimaalisesti tilankäytön ja liikenteen sujuvuuden kannalta.</p>
+      <div>
+        <div class="service-title">Uusintamaalaus</div>
+        <p class="service-desc">Kuluneiden viivamerkintöjen piristäminen. Nopea tapa saada piha siistiksi ennen kesää.</p>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- IMAGE SHOWCASE -->
+<div class="img-showcase">
+  <div class="img-showcase-inner">
+    <img src="parkkiviiva1.jpg" alt="Ammattimaisesti maalattu parkkialue" />
+    <div class="img-showcase-text">
+      <div class="section-tag" style="color:var(--yellow);">Lopputulos</div>
+      <h3>Siisti tulos joka kestää</h3>
+      <p>Käytämme kestäviä tieliikennemaaleilla tehtyjä merkintöjä jotka pysyvät selkeinä vuodesta toiseen — niin ulkona kuin sisätiloissa.</p>
+    </div>
+  </div>
+</div>
+
+<!-- NIGHT WORK BANNER -->
+<div class="night-banner">
+  <div class="night-banner-inner">
+    <div class="night-icon">🌙</div>
+    <div>
+      <h3>Teemme työt iltaisin ja öisin</h3>
+      <p>Parkkipaikat ovat tyhjillään silloin kun ne eivät ole käytössä — joten me työskentelemme pääosin iltaisin ja öisin. Näin parkkialue pysyy vapaana päivisin eikä työmme häiritse teidän arkeanne lainkaan.</p>
+    </div>
+  </div>
+</div>
 
 <!-- HOW -->
 <section class="how" id="miten">
@@ -728,7 +846,7 @@
     <div class="step">
       <div class="step-line"></div>
       <div class="step-title">Yhteydenotto</div>
-      <p class="step-desc">Lähetä viesti tai soita. Kerro kohde, sijainti ja arvio parkkipaikkojen määrästä.</p>
+      <p class="step-desc">Soita tai lähetä viesti. Kerro kohde, sijainti ja arvio parkkipaikkojen määrästä.</p>
     </div>
     <div class="step">
       <div class="step-line"></div>
@@ -738,64 +856,68 @@
     <div class="step">
       <div class="step-line"></div>
       <div class="step-title">Sovitaan aikataulu</div>
-      <p class="step-desc">Valitaan sopiva päivä. Työ tehdään usein yhden päivän aikana.</p>
+      <p class="step-desc">Valitaan sopiva ajankohta, usein ilta tai yö. Työ valmistuu tyypillisesti yhdessä kerrassa.</p>
     </div>
     <div class="step">
       <div class="step-title">Valmista!</div>
-      <p class="step-desc">Siisti lopputulos, kuivumisaika noin 2–4 tuntia, jonka jälkeen piha on käytössä.</p>
+      <p class="step-desc">Siisti lopputulos, kuivumisaika noin 2–4 tuntia — aamulla piha on täydessä käytössä.</p>
     </div>
   </div>
 </section>
 
-<!-- WHO -->
-<section class="who" id="asiakkaat">
-  <div class="section-tag">Kenelle</div>
-  <h2 class="section-title">Sopiiko se meille?</h2>
+<!-- WHO WE ARE -->
+<section class="who" id="meista">
+  <div class="section-tag">Ketkä olemme</div>
+  <h2 class="section-title">Tutustutaan</h2>
   <div class="who-grid">
-    <ul class="who-list">
-      <li><span>🏠</span> Taloyhtiöt ja isännöitsijät</li>
-      <li><span>🏢</span> Toimistokiinteistöt</li>
-      <li><span>🛒</span> Kauppakeskukset ja myymälät</li>
-      <li><span>🏭</span> Teollisuus- ja logistiikka-alueet</li>
-      <li><span>🏥</span> Sairaalat ja julkiset kiinteistöt</li>
-      <li><span>⛽</span> Huoltoasemat ja autoliikkeet</li>
-    </ul>
+    <div class="who-photo">
+      <img src="parkkiviiva3.jpg" alt="Parkkihalli keltaisilla viivoilla" />
+      <div class="who-photo-caption">Kauniainen · Uusimaa</div>
+    </div>
     <div class="who-text">
-      <h3>Kesäkuu on paras aika — varaa nyt</h3>
-      <p>Parkkipaikkojen maalaus onnistuu parhaiten kuivalla ja lämpimällä kelillä. Kesäkuu on juuri oikea aika — maali tarttuu hyvin ja kuivuu nopeasti.</p>
-      <p>Varaamalla nyt varmistat paikan kalenteristamme ja saat siistin pihan kesäksi. Kysy rohkeasti, tarjous on aina ilmainen.</p>
-      <a href="#yhteystiedot" class="btn-primary" style="margin-top: 1rem;">Kysy tarjous</a>
+      <h3>Kaksi nuorta yrittäjää Kauniaisista</h3>
+      <p>Olemme Valtteri ja Panu Jutila — kaksi innokasta nuorta yrittäjää, jotka perustivat Parkkiviivat Uusimaa yrittäjähenkisyytemme ja vähäisen kesätyötarjonnan siivittämänä.</p>
+      <p>Uskomme siihen, että jokainen asiakas ansaitsee laadukkaan lopputuloksen. Takaamme, että olette tyytyväisiä tehtyyn työhön — teemme jokaisen kohteen ammattimaisesti ja vastuullisesti.</p>
+      <p>Ota rohkeasti yhteyttä, me hoidamme loput!</p>
+      <div class="who-names">
+        <div class="who-name-card">Valtteri Jutila<span>Yrittäjä</span></div>
+        <div class="who-name-card">Panu Jutila<span>Yrittäjä</span></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-section">
+  <img src="p.png" alt="Parkkiviivat Uusimaa" class="cta-logo">
   <h2>Valmis siistimpään pihaan?</h2>
-  <p>Ota yhteyttä tänään — tarjous on ilmainen ja vastaamme 24 tunnissa.</p>
-  <a href="#yhteystiedot" class="btn-primary">Pyydä ilmainen tarjous →</a>
+  <p>Ota yhteyttä tänään — tarjous on aina ilmainen ja vastaamme 24 tunnin sisällä.</p>
+  <a href="#yhteystiedot" class="btn-cta">Pyydä ilmainen tarjous →</a>
 </section>
 
 <!-- CONTACT -->
 <section class="contact" id="yhteystiedot">
   <div class="contact-info">
     <h2>Ota yhteyttä</h2>
-    <p>Täytä lomake tai ota suoraan yhteyttä. Kerro kohteesta ja parkkipaikkojen määrästä niin lähetämme tarjouksen nopeasti.</p>
-    <div class="contact-detail">
-      <div class="icon">📧</div>
-      <span>info@parkkiviivat-uusimaa.fi</span>
-    </div>
+    <p>Täytä lomake tai soita suoraan. Kerro kohteesta ja parkkipaikkojen määrästä — lähetämme tarjouksen nopeasti.</p>
     <div class="contact-detail">
       <div class="icon">📞</div>
-      <span>+358 XX XXX XXXX</span>
+      <div>
+        <div>Valtteri: <a href="tel:+358442431103" style="color:inherit">+358 44 243 1103</a></div>
+        <div style="margin-top:4px">Panu: <a href="tel:+358442351621" style="color:inherit">+358 44 235 1621</a></div>
+      </div>
+    </div>
+    <div class="contact-detail">
+      <div class="icon">📧</div>
+      <span><a href="mailto:parkkiviivat.uusimaa@gmail.com" style="color:inherit">parkkiviivat.uusimaa@gmail.com</a></span>
     </div>
     <div class="contact-detail">
       <div class="icon">📍</div>
-      <span>Uusimaa, pääkaupunkiseutu ja lähialueet</span>
+      <span>Kauniainen · koko Uusimaan alue</span>
     </div>
     <div class="contact-detail">
-      <div class="icon">🕐</div>
-      <span>Ma–Pe 8–18, La tarvittaessa</span>
+      <div class="icon">🌙</div>
+      <span>Työskentelemme pääosin iltaisin ja öisin</span>
     </div>
   </div>
   <form class="contact-form" onsubmit="handleSubmit(event)">
@@ -820,7 +942,9 @@
 </section>
 
 <footer>
-  <p>© 2025 Parkkiviivat Uusimaa · <a href="mailto:info@parkkiviivat-uusimaa.fi">info@parkkiviivat-uusimaa.fi</a></p>
+  <img src="p.png" alt="logo" style="width:40px;height:40px;margin-bottom:0.75rem;opacity:0.5;display:block;margin-left:auto;margin-right:auto;">
+  <p>© 2026 Parkkiviivat Uusimaa · Valtteri & Panu Jutila</p>
+  <p style="margin-top:0.4rem"><a href="mailto:parkkiviivat.uusimaa@gmail.com">parkkiviivat.uusimaa@gmail.com</a> · <a href="tel:+358442431103">+358 44 243 1103</a></p>
 </footer>
 
 <script>
